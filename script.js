@@ -288,7 +288,7 @@ function burst(x, y, color, count) {
 }
 // Load cloud image once — black background knocked out with 'screen' blend
 const cloudImg = new Image();
-cloudImg.src = "image/cloud_12132011.pnggit ";
+cloudImg.src = "image/cloud_12132011.png ";
 cloudImg.onload = () => drawStaticFrame();
 
 // ── Draw ──────────────────────────────────────────────────────────

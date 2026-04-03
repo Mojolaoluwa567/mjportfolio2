@@ -109,6 +109,7 @@ nav {
   align-items: flex-start;
   padding-top: 56px;
   flex-direction: column;
+  margin-top: 1.5rem;
 }
 
 #touch-controls {
@@ -807,9 +808,9 @@ nav {
 
 .score-bar {
   position: fixed;
-  bottom: 0;
   left: 0;
   right: 0;
+  top: 3rem;
   background: var(--dark);
   border-top: 3px solid var(--yellow);
   height: 34px;
@@ -817,6 +818,7 @@ nav {
   align-items: center;
   overflow: hidden;
   z-index: 100;
+  margin-bottom: 4rem;
 }
 .score-ticker {
   display: flex;
