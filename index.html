@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MJ Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <link
+      rel="shortcut icon"
+      href="image/puzzle_1516813.png"
+      type="image/x-icon"
+    />
+  </head>
+
+  <body>
+    <div id="cursor"></div>
+
+    <nav>
+      <div class="nav-logo"><span class="nav-ball"></span>MJ.DEV</div>
+      <ul class="nav-links">
+        <li><a href="#about">SKILLS</a></li>
+        <li><a href="#projects">WORK</a></li>
+        <li><a href="#experience">XP</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+      </ul>
+    </nav>
+
+    <section id="hero">
+      <div id="game-wrap">
+        <canvas id="game-canvas"></canvas>
+
+        <div id="game-hud">
+          <span>SCORE: <span id="hud-score">0</span></span>
+          <span>RINGS: <span id="hud-rings">0/0</span></span>
+          <span class="hud-lives">LIVES: <span id="hud-lives">♥♥♥</span></span>
+        </div>
+
+        <div class="game-overlay" id="screen-start">
+          <h2>★ BOUNCE ★</h2>
+          <p>
+            ← → MOVE &nbsp;|&nbsp; SPACE JUMP<br />COLLECT ALL RINGS · AVOID
+            SPIDERS<br />FALL OFF = LOSE A LIFE
+          </p>
+          <button class="btn-play" id="btn-start">▶ PLAY</button>
+        </div>
+
+        <div class="game-overlay" id="screen-gameover" style="display: none">
+          <h2>GAME OVER</h2>
+          <div class="score-big">SCORE: <span id="final-score">0</span></div>
+          <p>YOU FELL OFF THE PLATFORM!</p>
+          <button class="btn-play" id="btn-restart">▶ TRY AGAIN</button>
+          <a
+            href="#about"
+            class="btn-play"
+            style="background: #1a1aff; margin-top: 0"
+            >↓ VIEW PORTFOLIO</a
+          >
+        </div>
+
+        <div class="game-overlay" id="screen-win" style="display: none">
+          <h2>LEVEL CLEAR! ★</h2>
+          <div class="score-big">SCORE: <span id="win-score">0</span></div>
+          <p>ALL RINGS COLLECTED! NICE ONE!</p>
+          <button class="btn-play" id="btn-next">▶ PLAY AGAIN</button>
+          <a
+            href="#about"
+            class="btn-play"
+            style="background: #00aa44; margin-top: 0"
+            >↓ VIEW PORTFOLIO</a
+          >
+        </div>
+      </div>
+
+      <div class="hero-info">
+        <div class="hero-info-left">
+          <h1>HELLO. I'M <span>MJ.</span><br />I BUILD FOR THE WEB.</h1>
+          <p>
+            Frontend Developer crafting fast, slick, interactive web experiences
+            — from pixel-perfect UIs to smooth 3D worlds. Based in Lagos. Always
+            leveling up.
+          </p>
+        </div>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn-primary">▶ SEE WORK</a>
+          <a href="#contact" class="btn-secondary">⚡ HIRE ME</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="pixel-divider"></div>
+
+    <section id="about">
+      <div class="section-header">
+        <div class="section-label">★ LEVEL 02 — SKILLS</div>
+        <h2 class="section-title">POWER-UPS COLLECTED</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm a frontend developer with an eye for design and a love for
+            creative, immersive web experiences. I turn complex ideas into
+            clean, fast, beautiful interfaces.
+          </p>
+          <p>
+            I've shipped websites for agriculture companies, education
+            consultancies, and personal brand projects — every build is another
+            level cleared.
+          </p>
+          <p>
+            When I'm not writing code, I'm studying trading, making music, or
+            obsessing over motion and 3D design.
+          </p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-chip">
+            <span class="skill-dot"></span>HTML / CSS
+          </div>
+          <div class="skill-chip">
+            <span class="skill-dot"></span>JAVASCRIPT
+          </div>
+          <div class="skill-chip"><span class="skill-dot"></span>THREE.JS</div>
+          <div class="skill-chip"><span class="skill-dot"></span>GSAP</div>
+          <div class="skill-chip"><span class="skill-dot"></span>REACT</div>
+          <div class="skill-chip"><span class="skill-dot"></span>BOOTSTRAP</div>
+          <div class="skill-chip"><span class="skill-dot"></span>FIGMA</div>
+          <div class="skill-chip">
+            <span class="skill-dot"></span>LOCO SCROLL
+          </div>
+          <div class="skill-chip">
+            <span class="skill-dot"></span>GIT / GITHUB
+          </div>
+          <div class="skill-chip">
+            <span class="skill-dot"></span>RESPONSIVE
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="pixel-divider"></div>
+
+    <section id="projects">
+      <div class="section-header">
+        <div class="section-label">★ LEVEL 03 — WORK</div>
+        <h2 class="section-title">PROJECTS UNLOCKED</h2>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="card-level">LVL 01</div>
+          <div class="card-visual" style="background: #87ceeb">
+            <div class="card-visual-bg"></div>
+            🌍
+          </div>
+          <div class="card-body">
+            <div class="card-title">3D SOLAR SYSTEM<br />PORTFOLIO</div>
+            <p class="card-desc">
+              Interactive 3D solar system where each planet is a project. Built
+              with Three.js, real planet textures, atmospheric glow, and
+              raycaster interaction.
+            </p>
+            <div class="card-tags">
+              <span class="tag">THREE.JS</span><span class="tag">GSAP</span
+              ><span class="tag">RAYCASTER</span>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="card-link">VIEW →</a>
+              <div class="rings-collected">
+                <span class="mini-ring"></span><span class="mini-ring"></span
+                ><span class="mini-ring"></span> 3/3
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="card-level">LVL 02</div>
+          <div class="card-visual" style="background: #1a1a2e">
+            <div class="card-visual-bg"></div>
+            🎓
+          </div>
+          <div class="card-body">
+            <div class="card-title">QPAT SOLUTIONS<br />WEBSITE</div>
+            <p class="card-desc">
+              Multi-page dark luxury redesign for an education consultancy.
+              Features Locomotive Scroll, custom cursor, editorial layout, and
+              consistent brand identity.
+            </p>
+            <div class="card-tags">
+              <span class="tag">HTML/CSS</span
+              ><span class="tag">LOCO SCROLL</span><span class="tag">GSAP</span>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="card-link">VIEW →</a>
+              <div class="rings-collected">
+                <span class="mini-ring"></span><span class="mini-ring"></span
+                ><span class="mini-ring"></span> 3/3
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="card-level">LVL 03</div>
+          <div class="card-visual" style="background: #228b22">
+            <div class="card-visual-bg"></div>
+            🌾
+          </div>
+          <div class="card-body">
+            <div class="card-title">ABP INDUSTRIES<br />WEBSITE</div>
+            <p class="card-desc">
+              Static marketing site for an agricultural company. Built with
+              Bootstrap 5, GSAP animations, AOS scroll effects, and a bold
+              green/gold brand palette.
+            </p>
+            <div class="card-tags">
+              <span class="tag">BOOTSTRAP</span><span class="tag">GSAP</span
+              ><span class="tag">AOS</span>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="card-link">VIEW →</a>
+              <div class="rings-collected">
+                <span class="mini-ring"></span><span class="mini-ring"></span
+                ><span class="mini-ring"></span> 3/3
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="card-level">LVL 04</div>
+          <div class="card-visual" style="background: #222">
+            <div class="card-visual-bg"></div>
+            👕
+          </div>
+          <div class="card-body">
+            <div class="card-title">URBANHIVE<br />BRAND SITE</div>
+            <p class="card-desc">
+              Full clothing brand website rebuild with homepage, about, shop,
+              and contact pages — plus a localStorage-driven admin panel for
+              product management.
+            </p>
+            <div class="card-tags">
+              <span class="tag">JS</span><span class="tag">LOCALSTORAGE</span
+              ><span class="tag">CSS</span>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="card-link">VIEW →</a>
+              <div class="rings-collected">
+                <span class="mini-ring"></span><span class="mini-ring"></span
+                ><span class="mini-ring"></span> 3/3
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="pixel-divider"></div>
+
+    <section id="experience">
+      <div class="section-header">
+        <div class="section-label">★ LEVEL 04 — XP</div>
+        <h2 class="section-title">EXPERIENCE LOG</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-ball">💼</div>
+          <div class="timeline-content">
+            <div class="timeline-year">2021 — 2023</div>
+            <div class="timeline-role">APTECH LEARNING</div>
+            <div class="timeline-company">TRAINING — Lagos, Nigeria</div>
+            <p class="timeline-desc">
+              Learning full stack development, UIUX. Specializing in creative,
+              interactive frontends with smooth animations and strong visual
+              identities.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-ball">🎨</div>
+          <div class="timeline-content">
+            <div class="timeline-year">2024 — PRESENT</div>
+            <div class="timeline-role">WEB DESIGNER & DEVELOPER</div>
+            <div class="timeline-company">Client Projects</div>
+            <p class="timeline-desc">
+              Delivered full-scope web projects from design to deployment for
+              companies across Nigeria — agriculture, education, fashion.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-ball">📚</div>
+          <div class="timeline-content">
+            <div class="timeline-year">ONGOING</div>
+            <div class="timeline-role">ADVANCED WEB DEV/ DESIGNER</div>
+            <div class="timeline-company">
+              Interactiveness and Design Focused
+            </div>
+            <p class="timeline-desc">
+              Continuously studying advanced frontend tech, javascript
+              libraries, Advance animations with GSAP and lenis
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="pixel-divider"></div>
+
+    <section id="contact">
+      <div class="section-header">
+        <div class="section-label">★ FINAL LEVEL — CONTACT</div>
+        <h2 class="section-title">GAME CLEAR.<br />LET'S CONNECT.</h2>
+      </div>
+      <div class="contact-wrap">
+        <div class="contact-card">
+          <p>
+            You've collected all the rings. The exit gate is open. Drop me a
+            message — I'm open to freelance work, collabs, and interesting
+            projects.
+          </p>
+          <div class="contact-links">
+            <a href="mailto:hello@mj.dev" class="contact-link">📧 EMAIL</a>
+            <a href="https://github.com/Mojolaoluwa567" class="contact-link"
+              >🐙 GITHUB</a
+            >
+            <a
+              href="https://www.linkedin.com/in/adeogunmojola/"
+              class="contact-link"
+              >💼 LINKEDIN</a
+            >
+            <a href="https://x.com/boomaye0" class="contact-link">🐦 TWITTER</a>
+          </div>
+          <a
+            href="https://www.linkedin.com/in/adeogunmojola/"
+            class="btn-primary"
+            style="display: inline-block"
+            >▶ START A PROJECT</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <div class="game-over-footer">
+      ★ MJ.DEV © 2025 — ALL RIGHTS RESERVED — PRESS START TO PLAY AGAIN ★
+    </div>
+
+    <div class="score-bar">
+      <div class="score-ticker">
+        <span>★ SCORE: 99999</span><span class="ticker-sep">///</span>
+        <span>RINGS: ∞ COLLECTED</span><span class="ticker-sep">///</span>
+        <span>STATUS: AVAILABLE FOR HIRE</span
+        ><span class="ticker-sep">///</span> <span>LEVEL: FRONTEND DEV</span
+        ><span class="ticker-sep">///</span> <span>LOCATION: LAGOS, NG</span
+        ><span class="ticker-sep">///</span> <span>★ SCORE: 99999</span
+        ><span class="ticker-sep">///</span> <span>RINGS: ∞ COLLECTED</span
+        ><span class="ticker-sep">///</span>
+        <span>STATUS: AVAILABLE FOR HIRE</span
+        ><span class="ticker-sep">///</span> <span>LEVEL: FRONTEND DEV</span
+        ><span class="ticker-sep">///</span> <span>LOCATION: LAGOS, NG</span
+        ><span class="ticker-sep">///</span>
+      </div>
+    </div>
+
+    <!-- Touch Controls (mobile only) -->
+    <div id="touch-controls">
+      <div class="touch-dpad">
+        <button class="touch-btn" id="tbtn-left">◀</button>
+        <button class="touch-btn" id="tbtn-right">▶</button>
+      </div>
+      <button class="touch-btn touch-jump" id="tbtn-jump">▲</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
