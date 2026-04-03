@@ -818,7 +818,6 @@ nav {
   align-items: center;
   overflow: hidden;
   z-index: 100;
-  margin-bottom: 4rem;
 }
 .score-ticker {
   display: flex;
