@@ -286,6 +286,10 @@ function burst(x, y, color, count) {
     });
   }
 }
+// Load cloud image once — black background knocked out with 'screen' blend
+const cloudImg = new Image();
+cloudImg.src = "image/cloud_12132011.pnggit ";
+cloudImg.onload = () => drawStaticFrame();
 
 // ── Draw ──────────────────────────────────────────────────────────
 function drawScene(t) {
@@ -308,43 +312,19 @@ function drawScene(t) {
 }
 
 function drawClouds(W, H) {
-  [
-    [W * 0.1, H * 0.1, 60],
-    [W * 0.52, H * 0.07, 78],
-    [W * 0.82, H * 0.16, 48],
-  ].forEach(([cx, cy, cw]) => cloud(cx, cy, cw));
+  const clouds = [
+    { x: W * 0.08, y: H * 0.1, w: 110, h: 55 },
+    { x: W * 0.5, y: H * 0.07, w: 140, h: 70 },
+    { x: W * 0.82, y: H * 0.15, w: 100, h: 50 },
+  ];
+  if (cloudImg.complete && cloudImg.naturalWidth > 0) {
+    clouds.forEach((c) => {
+      ctx.globalCompositeOperation = "screen"; // knocks out black background
+      ctx.drawImage(cloudImg, c.x, c.y, c.w, c.h);
+      ctx.globalCompositeOperation = "source-over"; // reset after each cloud
+    });
+  }
 }
-
-function cloud(x, y, w) {
-  const h = w * 0.36;
-  ctx.fillStyle = COL.white;
-  ctx.strokeStyle = COL.dark;
-  ctx.lineWidth = 2;
-  rr(x, y + h * 0.4, w, h, 4);
-  ctx.fill();
-  ctx.stroke();
-  rr(x + w * 0.15, y, w * 0.4, w * 0.4, w * 0.2);
-  ctx.fill();
-  ctx.stroke();
-  rr(x + w * 0.46, y + h * 0.1, w * 0.33, w * 0.33, w * 0.165);
-  ctx.fill();
-  ctx.stroke();
-}
-
-function rr(x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
-}
-
 function drawPlatforms() {
   for (const p of platforms) {
     ctx.lineWidth = 3;
@@ -636,3 +616,80 @@ function wireTouchBtn(id, key) {
 wireTouchBtn("tbtn-left", "left");
 wireTouchBtn("tbtn-right", "right");
 wireTouchBtn("tbtn-jump", "space");
+
+// ── Sliding Tile Puzzle ──────────────────────────────────────────
+const TILES = ["🔴", "⚡", "★", "🎮", "💻", "🎨", "🌍", "🏆", null]; // null = empty
+let puzzleState = [],
+  moveCount = 0;
+
+function initPuzzle() {
+  puzzleState = [...TILES];
+  moveCount = 0;
+  document.getElementById("move-count").textContent = 0;
+  document.getElementById("puzzle-solved").style.display = "none";
+  shufflePuzzle();
+}
+
+function shufflePuzzle() {
+  // Do 80 random valid moves from solved state to guarantee solvability
+  let blank = puzzleState.indexOf(null);
+  for (let i = 0; i < 80; i++) {
+    const neighbors = getNeighbors(blank);
+    const pick = neighbors[Math.floor(Math.random() * neighbors.length)];
+    puzzleState[blank] = puzzleState[pick];
+    puzzleState[pick] = null;
+    blank = pick;
+  }
+  moveCount = 0;
+  document.getElementById("move-count").textContent = 0;
+  document.getElementById("puzzle-solved").style.display = "none";
+  renderPuzzle();
+}
+
+function getNeighbors(idx) {
+  const row = Math.floor(idx / 3),
+    col = idx % 3,
+    n = [];
+  if (row > 0) n.push(idx - 3); // up
+  if (row < 2) n.push(idx + 3); // down
+  if (col > 0) n.push(idx - 1); // left
+  if (col < 2) n.push(idx + 1); // right
+  return n;
+}
+
+function renderPuzzle() {
+  const grid = document.getElementById("puzzle-grid");
+  grid.innerHTML = "";
+  const isSolved = puzzleState.every((v, i) => v === TILES[i]);
+
+  puzzleState.forEach((val, i) => {
+    const tile = document.createElement("div");
+    tile.className =
+      "tile" +
+      (val === null ? " empty" : "") +
+      (isSolved && val !== null ? " correct" : "");
+    tile.textContent = val || "";
+    if (val !== null) {
+      tile.addEventListener("click", () => moveTile(i));
+    }
+    grid.appendChild(tile);
+  });
+
+  if (isSolved && moveCount > 0) {
+    document.getElementById("puzzle-solved").style.display = "block";
+  }
+}
+
+function moveTile(idx) {
+  const blank = puzzleState.indexOf(null);
+  if (getNeighbors(blank).includes(idx)) {
+    puzzleState[blank] = puzzleState[idx];
+    puzzleState[idx] = null;
+    moveCount++;
+    document.getElementById("move-count").textContent = moveCount;
+    renderPuzzle();
+  }
+}
+
+document.getElementById("btn-shuffle").addEventListener("click", shufflePuzzle);
+initPuzzle();

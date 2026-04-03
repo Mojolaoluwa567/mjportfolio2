@@ -75,22 +75,30 @@
           >
         </div>
       </div>
-
-      <div class="hero-info">
-        <div class="hero-info-left">
-          <h1>HELLO. I'M <span>MJ.</span><br />I BUILD FOR THE WEB.</h1>
-          <p>
-            Frontend Developer crafting fast, slick, interactive web experiences
-            — from pixel-perfect UIs to smooth 3D worlds. Based in Lagos. Always
-            leveling up.
-          </p>
-        </div>
+  <article class="lr">
+      <div class="hero-info-left">
+        <h1>HELLO. I'M <span>MJ.</span><br />I BUILD WEBSITES.</h1>
+        <p>
+         Frontend Developer crafting fast, slick, and interactive web experiences from pixel-perfect interfaces to immersive 3D environments. I specialize in building responsive, high-performance websites using modern technologies, with a strong focus on smooth animations and intuitive user interactions. Based in Lagos, constantly refining my craft and pushing creative boundaries.
+        </p>
         <div class="hero-ctas">
           <a href="#projects" class="btn-primary">▶ SEE WORK</a>
           <a href="#contact" class="btn-secondary">⚡ HIRE ME</a>
         </div>
       </div>
+
+      <div class="puzzle-panel">
+        <div class="puzzle-label">★ MINI PUZZLE — CAN YOU SOLVE IT?</div>
+        <div id="puzzle-grid"></div>
+        <div class="puzzle-moves">MOVES: <span id="move-count">0</span></div>
+        <div class="puzzle-solved" id="puzzle-solved">
+          ✓ SOLVED!<br />YOU'RE HIRED.
+        </div>
+        <button class="btn-shuffle" id="btn-shuffle">↺ SHUFFLE</button>
+      </div>
     </section>
+
+    </article>
 
     <div class="pixel-divider"></div>
 
@@ -108,11 +116,11 @@
           </p>
           <p>
             I've shipped websites for agriculture companies, education
-            consultancies, and personal brand projects — every build is another
+            consultancies, and personal brand projects,every build is another
             level cleared.
           </p>
           <p>
-            When I'm not writing code, I'm studying trading, making music, or
+            When I'm not writing code, I'm studying, making music, or
             obsessing over motion and 3D design.
           </p>
         </div>
@@ -151,9 +159,19 @@
       <div class="projects-grid">
         <div class="project-card">
           <div class="card-level">LVL 01</div>
-          <div class="card-visual" style="background: #87ceeb">
-            <div class="card-visual-bg"></div>
-            🌍
+          <div class="card-visual" style="background: #6a00b6">
+            <div class="card-visual-bg">
+              <img
+                src="image/travel_10913730.png"
+                alt=""
+                style="
+                  height: 80px;
+                  display: block;
+                  margin-top: 2rem;
+                  margin-left: 8.5rem;
+                "
+              />
+            </div>
           </div>
           <div class="card-body">
             <div class="card-title">3D SOLAR SYSTEM<br />PORTFOLIO</div>
@@ -177,9 +195,19 @@
         </div>
         <div class="project-card">
           <div class="card-level">LVL 02</div>
-          <div class="card-visual" style="background: #1a1a2e">
-            <div class="card-visual-bg"></div>
-            🎓
+          <div class="card-visual" style="background: #ff5df7">
+            <div class="card-visual-bg">
+              <img
+                src="image/table_2628757.png"
+                alt=""
+                style="
+                  height: 80px;
+                  display: block;
+                  margin-top: 2rem;
+                  margin-left: 8.5rem;
+                "
+              />
+            </div>
           </div>
           <div class="card-body">
             <div class="card-title">QPAT SOLUTIONS<br />WEBSITE</div>
@@ -193,7 +221,7 @@
               ><span class="tag">LOCO SCROLL</span><span class="tag">GSAP</span>
             </div>
             <div class="card-footer">
-              <a href="#" class="card-link">VIEW →</a>
+              <a href="https://qpat.netlify.app/" class="card-link">VIEW →</a>
               <div class="rings-collected">
                 <span class="mini-ring"></span><span class="mini-ring"></span
                 ><span class="mini-ring"></span> 3/3
@@ -203,9 +231,19 @@
         </div>
         <div class="project-card">
           <div class="card-level">LVL 03</div>
-          <div class="card-visual" style="background: #228b22">
-            <div class="card-visual-bg"></div>
-            🌾
+          <div class="card-visual" style="background: #0f5d0f">
+            <div class="card-visual-bg">
+              <span
+                style="
+                  height: 80px;
+                  display: block;
+                  margin-top: 2rem;
+                  margin-left: 10rem;
+                "
+              >
+                🌾</span
+              >
+            </div>
           </div>
           <div class="card-body">
             <div class="card-title">ABP INDUSTRIES<br />WEBSITE</div>
@@ -219,7 +257,9 @@
               ><span class="tag">AOS</span>
             </div>
             <div class="card-footer">
-              <a href="#" class="card-link">VIEW →</a>
+              <a href="https://abpindustries.netlify.app/" class="card-link"
+                >VIEW →</a
+              >
               <div class="rings-collected">
                 <span class="mini-ring"></span><span class="mini-ring"></span
                 ><span class="mini-ring"></span> 3/3
@@ -230,8 +270,18 @@
         <div class="project-card">
           <div class="card-level">LVL 04</div>
           <div class="card-visual" style="background: #222">
-            <div class="card-visual-bg"></div>
-            👕
+            <div class="card-visual-bg">
+              <img
+                src="image/laundry_2954918.png"
+                alt=""
+                style="
+                  height: 80px;
+                  display: block;
+                  margin-top: 2rem;
+                  margin-left: 8.5rem;
+                "
+              />
+            </div>
           </div>
           <div class="card-body">
             <div class="card-title">URBANHIVE<br />BRAND SITE</div>
@@ -245,7 +295,9 @@
               ><span class="tag">CSS</span>
             </div>
             <div class="card-footer">
-              <a href="#" class="card-link">VIEW →</a>
+              <a href="https://urbanhive-chi.vercel.app/" class="card-link"
+                >VIEW →</a
+              >
               <div class="rings-collected">
                 <span class="mini-ring"></span><span class="mini-ring"></span
                 ><span class="mini-ring"></span> 3/3
