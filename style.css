@@ -33,8 +33,6 @@ body {
   z-index: 9999;
   transform: translate(-50%, -50%);
   transition: transform 0.08s ease;
-
-  /* pixel style shadow */
   box-shadow: 2px 2px 0 var(--dark);
 }
 
@@ -50,7 +48,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   height: 56px;
 }
 .nav-logo {
@@ -216,7 +214,7 @@ nav {
 }
 .game-overlay h2 {
   font-family: "Press Start 2P", monospace;
-  font-size: clamp(16px, 3vw, 30px);
+  font-size: clamp(14px, 3vw, 30px);
   color: var(--yellow);
   text-shadow: 4px 4px 0 var(--dark);
   text-align: center;
@@ -224,10 +222,11 @@ nav {
 }
 .game-overlay p {
   font-family: "Press Start 2P", monospace;
-  font-size: 8px;
+  font-size: clamp(6px, 1.8vw, 8px);
   color: var(--white);
   text-align: center;
   line-height: 2.2;
+  padding: 0 10px;
 }
 .btn-play {
   font-family: "Press Start 2P", monospace;
@@ -256,37 +255,23 @@ nav {
   padding: 8px 18px;
 }
 
+/* HERO INFO SECTION */
 .lr {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* true 50/50 */
   background-color: var(--red);
-}
-.hero-info {
-  background: var(--yellow);
-  border-top: 4px solid var(--dark);
+  width: 100%;
+  align-items: stretch;
 }
 
 .hero-info-left {
-  padding-left: 15rem;
-  padding-top: 3rem;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
 }
-@media (max-width: 768px) {
-  .hero-info {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 32px 5%;
-  }
-}
-.hero-info-left h1 {
-  font-family: "Press Start 2P", monospace;
-  font-size: clamp(11px, 2vw, 19px);
-  color: var(--white);
-  line-height: 1.7;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 0 var(--dark);
-}
-.hero-info-left h1 span {
-  color: var(--dark);
-}
+
 .hero-info-left p {
   font-size: 13px;
   font-weight: 800;
@@ -296,27 +281,24 @@ nav {
   padding: 10px 12px;
   border: 3px solid var(--dark);
   box-shadow: 3px 3px 0 var(--dark);
-  margin-bottom: 16px;
-  max-width: 60%;
-}
-.hero-ctas {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  max-width: 100%; /* was 60%, now fills its column */
 }
 
-/* Puzzle Panel */
 .puzzle-panel {
   background: var(--white);
-  border: 4px solid var(--dark);
-  box-shadow: 6px 6px 0 var(--dark);
+  border-left: 4px solid var(--dark); /* seam between the two halves */
+  border-right: none;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  width: 90%;
-  height: 30rem;
+  justify-content: center;
+  gap: 14px;
+  width: 100%; /* fills its grid cell */
+  padding: 2rem 1.5rem;
+  height: auto;
 }
+
 .puzzle-label {
   font-family: "Press Start 2P", monospace;
   font-size: 8px;
@@ -326,13 +308,14 @@ nav {
   padding: 5px 12px;
   margin-top: 1rem;
   border: 2px solid var(--dark);
+  text-align: center;
 }
 #puzzle-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   width: 100%;
-  max-width: 300px;
+  max-width: 260px;
 }
 .tile {
   aspect-ratio: 1;
@@ -398,11 +381,6 @@ nav {
 .btn-shuffle:hover {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0 var(--yellow);
-}
-.hero-ctas {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
 }
 
 .btn-primary {
@@ -810,10 +788,10 @@ nav {
   position: fixed;
   left: 0;
   right: 0;
-  top: 3rem;
+  top: 56px;
   background: var(--dark);
   border-top: 3px solid var(--yellow);
-  height: 34px;
+  height: 28px;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -825,7 +803,7 @@ nav {
   white-space: nowrap;
   animation: tick 22s linear infinite;
   font-family: "Press Start 2P", monospace;
-  font-size: 8px;
+  font-size: 7px;
   color: var(--yellow);
 }
 @keyframes tick {
@@ -840,12 +818,262 @@ nav {
   color: var(--red);
 }
 
-/* REPLACE with this */
+/* ============================================================
+   MOBILE RESPONSIVE — max-width: 768px
+   ============================================================ */
 @media (max-width: 768px) {
-  .about-grid {
-    grid-template-columns: 1fr;
+  /* Hide custom cursor on touch */
+  #cursor {
+    display: none;
   }
+  body {
+    cursor: auto;
+  }
+
+  /* Nav — hide links, keep logo */
   .nav-links {
     display: none;
+  }
+  nav {
+    padding: 0 1rem;
+  }
+  .nav-logo {
+    font-size: 11px;
+  }
+
+  /* Score bar fix — sits flush below nav */
+  .score-bar {
+    top: 56px;
+    height: 24px;
+  }
+  .score-ticker {
+    font-size: 6px;
+  }
+
+  /* Hero — account for nav + ticker */
+  #hero {
+    padding-top: 56px;
+    margin-top: 0;
+  }
+
+  /* Game canvas padding for touch controls */
+  #game-wrap {
+    padding-bottom: 100px;
+  }
+
+  /* HUD — smaller on mobile */
+  #game-hud {
+    font-size: 7px;
+    gap: 8px;
+    padding: 4px 8px;
+    top: 6px;
+    left: 8px;
+  }
+
+  /* Hero info — stack vertically */
+
+  .hero-info-left {
+    padding: 1.5rem 1rem;
+    width: 100%;
+  }
+
+  .lr {
+    grid-template-columns: 1fr;
+  }
+
+  .puzzle-panel {
+    border-left: none;
+    border-top: 4px solid var(--dark);
+    width: calc(100% - 2rem);
+    margin: 0 1rem 1.5rem;
+  }
+
+  .hero-info-left h1 {
+    font-size: clamp(9px, 3.5vw, 14px);
+    margin-bottom: 12px;
+  }
+
+  .hero-info-left p {
+    font-size: 12px;
+    max-width: 100%;
+    margin-bottom: 14px;
+  }
+
+  .hero-ctas {
+    gap: 8px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    font-size: 8px;
+    padding: 10px 14px;
+  }
+
+  .puzzle-label {
+    font-size: 7px;
+    text-align: center;
+    padding: 4px 8px;
+  }
+
+  #puzzle-grid {
+    max-width: 240px;
+    gap: 6px;
+  }
+
+  /* About section */
+  #about {
+    padding: 50px 5%;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .skill-chip {
+    font-size: 6px;
+    padding: 8px 10px;
+  }
+
+  /* Projects */
+  #projects {
+    padding: 50px 4%;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .card-visual img {
+    margin-left: 50% !important;
+    transform: translateX(-50%);
+    margin-top: 1.5rem !important;
+  }
+
+  /* Experience */
+  #experience {
+    padding: 50px 4%;
+  }
+
+  .timeline::before {
+    left: 22px;
+  }
+
+  .timeline-item {
+    gap: 14px;
+  }
+
+  .timeline-ball {
+    width: 46px;
+    height: 46px;
+    font-size: 16px;
+  }
+
+  .timeline-content {
+    padding: 12px 14px;
+  }
+
+  .timeline-role {
+    font-size: 8px;
+  }
+
+  /* Contact */
+  #contact {
+    padding: 50px 4%;
+  }
+
+  .contact-card {
+    padding: 20px 16px;
+  }
+
+  .contact-links {
+    gap: 8px;
+  }
+
+  .contact-link {
+    font-size: 6px;
+    padding: 8px 10px;
+  }
+
+  /* Footer */
+  .game-over-footer {
+    font-size: 6px;
+    padding: 14px 8px;
+    letter-spacing: 0px;
+    line-height: 1.8;
+  }
+
+  /* Section headers */
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: clamp(11px, 3.5vw, 16px);
+  }
+
+  .section-label {
+    font-size: 6px;
+    padding: 5px 10px;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE — max-width: 400px
+   ============================================================ */
+@media (max-width: 400px) {
+  .hero-info-left h1 {
+    font-size: 9px;
+  }
+
+  .hero-info-left p {
+    font-size: 11px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    font-size: 7px;
+    padding: 9px 11px;
+  }
+
+  #puzzle-grid {
+    max-width: 200px;
+    gap: 5px;
+  }
+
+  .touch-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 15px;
+  }
+
+  .touch-jump {
+    width: 62px;
+    height: 62px;
+    font-size: 18px;
+  }
+
+  .timeline-ball {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .timeline-role {
+    font-size: 7px;
+  }
+
+  .contact-card {
+    padding: 16px 12px;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
