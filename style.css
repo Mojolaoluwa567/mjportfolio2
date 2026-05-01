@@ -284,6 +284,11 @@ nav {
   max-width: 100%; /* was 60%, now fills its column */
 }
 
+.hero-info-left h1 {
+  color: white;
+  font-weight: bold;
+}
+
 .puzzle-panel {
   background: var(--white);
   border-left: 4px solid var(--dark); /* seam between the two halves */
@@ -854,11 +859,6 @@ nav {
   #hero {
     padding-top: 56px;
     margin-top: 0;
-  }
-
-  /* Game canvas padding for touch controls */
-  #game-wrap {
-    padding-bottom: 100px;
   }
 
   /* HUD — smaller on mobile */
