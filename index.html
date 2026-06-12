@@ -9,7 +9,6 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-
     <link
       rel="shortcut icon"
       href="image/puzzle_1516813.png"
@@ -20,8 +19,15 @@
   <body>
     <div id="cursor"></div>
 
+    <!-- INTRO — split curtain -->
+    <div id="intro-screen">
+      <div class="intro-curtain-a"></div>
+      <div class="intro-curtain-b"></div>
+      <div class="intro-logo"></div>
+    </div>
+
     <nav>
-      <div class="nav-logo"><span class="nav-ball"></span>MJ.DEV</div>
+      <div class="nav-logo"><span class="nav-ball"></span>ADEOGUN MOJOLA</div>
       <ul class="nav-links">
         <li><a href="#about">SKILLS</a></li>
         <li><a href="#projects">WORK</a></li>
@@ -74,6 +80,7 @@
             >↓ VIEW PORTFOLIO</a
           >
         </div>
+
         <!-- Touch Controls (mobile only) -->
         <div id="touch-controls">
           <div class="touch-dpad">
@@ -83,6 +90,7 @@
           <button class="touch-btn touch-jump" id="tbtn-jump">▲</button>
         </div>
       </div>
+
       <article class="lr">
         <div class="hero-info-left">
           <h1>HELLO. I'M <span>MJ.</span><br />I BUILD WEBSITES.</h1>
@@ -96,7 +104,9 @@
           </p>
           <div class="hero-ctas">
             <a href="#projects" class="btn-primary">▶ SEE WORK</a>
-            <a href="#contact" class="btn-secondary">⚡ HIRE ME</a>
+            <a href="#contact" class="btn-secondary">
+              <span class="smallie">⚡</span> HIRE ME</a
+            >
           </div>
         </div>
 
@@ -128,7 +138,7 @@
           </p>
           <p>
             I've shipped websites for agriculture companies, education
-            consultancies, and personal brand projects,every build is another
+            consultancies, and personal brand projects every build is another
             level cleared.
           </p>
           <p>
@@ -148,14 +158,12 @@
           <div class="skill-chip"><span class="skill-dot"></span>REACT</div>
           <div class="skill-chip"><span class="skill-dot"></span>BOOTSTRAP</div>
           <div class="skill-chip"><span class="skill-dot"></span>FIGMA</div>
-          <div class="skill-chip">
-            <span class="skill-dot"></span>LOCO SCROLL
-          </div>
+          <div class="skill-chip"><span class="skill-dot"></span>NEXT.JS</div>
           <div class="skill-chip">
             <span class="skill-dot"></span>GIT / GITHUB
           </div>
           <div class="skill-chip">
-            <span class="skill-dot"></span>RESPONSIVE
+            <span class="skill-dot"></span>RESPONSIVENESS
           </div>
         </div>
       </div>
@@ -188,9 +196,13 @@
           <div class="card-body">
             <div class="card-title">3D SOLAR SYSTEM<br />PORTFOLIO</div>
             <p class="card-desc">
-              Interactive 3D solar system where each planet is a project. Built
-              with Three.js, real planet textures, atmospheric glow, and
-              raycaster interaction.
+              An interactive 3D solar system built as an immersive portfolio
+              experience, where each planet represents a unique project “world.”
+              Developed with Three.js, the experience features realistic
+              planetary textures, atmospheric glow effects, and smooth camera
+              transitions. Users can explore the system through raycaster-based
+              interaction, creating a spatial, cinematic way of navigating
+              projects rather than a traditional grid layout.
             </p>
             <div class="card-tags">
               <span class="tag">THREE.JS</span><span class="tag">GSAP</span
@@ -200,11 +212,12 @@
               <a href="#" class="card-link">VIEW →</a>
               <div class="rings-collected">
                 <span class="mini-ring"></span><span class="mini-ring"></span
-                ><span class="mini-ring"></span> 3/3
+                ><span class="mini-ring"></span>
               </div>
             </div>
           </div>
         </div>
+
         <div class="project-card">
           <div class="card-level">LVL 02</div>
           <div class="card-visual" style="background: #ff5df7">
@@ -224,23 +237,31 @@
           <div class="card-body">
             <div class="card-title">QPAT SOLUTIONS<br />WEBSITE</div>
             <p class="card-desc">
-              Multi-page dark luxury redesign for an education consultancy.
-              Features Locomotive Scroll, custom cursor, editorial layout, and
-              consistent brand identity.
+              QPAT is an educational consultancy platform that helps students
+              access international scholarship opportunities through guidance on
+              standardized and entrance examinations. The website was redesigned
+              as a multi-page luxury digital experience, featuring a dark
+              editorial aesthetic, smooth scrolling powered by Locomotive
+              Scroll, a custom interactive cursor, and a refined visual identity
+              system. The project focuses on building trust, improving
+              information architecture, and creating an immersive user
+              experience that reflects the premium nature of educational
+              consulting services.
             </p>
             <div class="card-tags">
-              <span class="tag">HTML/CSS</span
-              ><span class="tag">LOCO SCROLL</span><span class="tag">GSAP</span>
+              <span class="tag">React</span><span class="tag">Next.js</span
+              ><span class="tag">Tailwind CSS</span>
             </div>
             <div class="card-footer">
               <a href="https://qpat.netlify.app/" class="card-link">VIEW →</a>
               <div class="rings-collected">
                 <span class="mini-ring"></span><span class="mini-ring"></span
-                ><span class="mini-ring"></span> 3/3
+                ><span class="mini-ring"></span>
               </div>
             </div>
           </div>
         </div>
+
         <div class="project-card">
           <div class="card-level">LVL 03</div>
           <div class="card-visual" style="background: #0f5d0f">
@@ -248,25 +269,31 @@
               <span
                 style="
                   height: 80px;
+                  zoom: 4;
                   display: block;
-                  margin-top: 2rem;
-                  margin-left: 10rem;
+                  margin-top: 3.3rem;
+                  margin-left: 0.5rem;
                 "
-              >
-                🌾</span
+                >🌾</span
               >
             </div>
           </div>
           <div class="card-body">
             <div class="card-title">ABP INDUSTRIES<br />WEBSITE</div>
             <p class="card-desc">
-              Static marketing site for an agricultural company. Built with
-              Bootstrap 5, GSAP animations, AOS scroll effects, and a bold
-              green/gold brand palette.
+              A luxury interactive website for a premium garri brand, designed
+              to elevate traditional agricultural packaging into a modern
+              digital experience. The site features a bold green and gold brand
+              palette, smooth scroll-based storytelling, GSAP driven animations,
+              and layered visual sections that reflect a high end product
+              identity. Each garri size variant is paired with its own
+              custom-designed packaging concept, emphasizing clarity, hierarchy,
+              and premium shelf appeal.
             </p>
             <div class="card-tags">
-              <span class="tag">BOOTSTRAP</span><span class="tag">GSAP</span
-              ><span class="tag">AOS</span>
+              <span class="tag">HTML/CSS</span
+              ><span class="tag"> Javascript & GSAP</span
+              ><span class="tag">Three.js</span>
             </div>
             <div class="card-footer">
               <a href="https://abpindustries.netlify.app/" class="card-link"
@@ -274,11 +301,12 @@
               >
               <div class="rings-collected">
                 <span class="mini-ring"></span><span class="mini-ring"></span
-                ><span class="mini-ring"></span> 3/3
+                ><span class="mini-ring"></span>
               </div>
             </div>
           </div>
         </div>
+
         <div class="project-card">
           <div class="card-level">LVL 04</div>
           <div class="card-visual" style="background: #222">
@@ -298,13 +326,19 @@
           <div class="card-body">
             <div class="card-title">URBANHIVE<br />BRAND SITE</div>
             <p class="card-desc">
-              Full clothing brand website rebuild with homepage, about, shop,
-              and contact pages — plus a localStorage-driven admin panel for
-              product management.
+              A complete redesign of a clothing brand digital experience,
+              featuring a structured multi-page architecture (Home, About, Shop,
+              Contact) with a fully responsive e-commerce interface. The system
+              includes a custom admin dashboard powered by localStorage for
+              product creation and management, simulating backend-like
+              functionality without server infrastructure. The focus is on
+              scalable UI architecture, intuitive product browsing, and
+              streamlined content control for non-technical users.
             </p>
             <div class="card-tags">
               <span class="tag">JS</span><span class="tag">LOCALSTORAGE</span
-              ><span class="tag">CSS</span>
+              ><span class="tag">HTML/CSS</span>
+              <span class="tag">Javascript</span>
             </div>
             <div class="card-footer">
               <a href="https://urbanhive-chi.vercel.app/" class="card-link"
@@ -312,7 +346,7 @@
               >
               <div class="rings-collected">
                 <span class="mini-ring"></span><span class="mini-ring"></span
-                ><span class="mini-ring"></span> 3/3
+                ><span class="mini-ring"></span>
               </div>
             </div>
           </div>
@@ -357,13 +391,13 @@
           <div class="timeline-ball">📚</div>
           <div class="timeline-content">
             <div class="timeline-year">ONGOING</div>
-            <div class="timeline-role">ADVANCED WEB DEV/ DESIGNER</div>
+            <div class="timeline-role">ADVANCED WEB DEV / DESIGNER</div>
             <div class="timeline-company">
               Interactiveness and Design Focused
             </div>
             <p class="timeline-desc">
               Continuously studying advanced frontend tech, javascript
-              libraries, Advance animations with GSAP and lenis
+              libraries, advance animations with GSAP and lenis.
             </p>
           </div>
         </div>
@@ -427,6 +461,7 @@
       </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

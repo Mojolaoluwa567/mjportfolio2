@@ -1,12 +1,159 @@
 // ================================================================
-//  BOUNCE GAME ENGINE — Pure Vanilla JS + HTML Canvas API
-//  No external libraries. requestAnimationFrame game loop.
+//  MJ PORTFOLIO — SINGLE SCRIPT
+//  Intro · Hero · Scroll reveals · Game engine
+// ================================================================
+
+// ── INTRO — clean, award-style ────────────────────────────────────
+window.addEventListener("load", () => {
+  const intro = document.getElementById("intro-screen");
+  const logoEl = document.querySelector(".intro-logo");
+  const curtainA = document.querySelector(".intro-curtain-a");
+  const curtainB = document.querySelector(".intro-curtain-b");
+
+  const tl = gsap.timeline({
+    onComplete: () => {
+      intro.style.display = "none";
+      triggerHeroAnimations();
+    },
+  });
+
+  // 4. Split curtains pull apart — top goes up, bottom goes down
+  tl.to(
+    curtainA,
+    { yPercent: -100, duration: 1.4, ease: "power4.inOut" },
+    "-=0.1",
+  );
+  tl.to(curtainB, { yPercent: 100, duration: 1.4, ease: "power4.inOut" }, "<");
+});
+
+// ── HERO ANIMATIONS ───────────────────────────────────────────────
+
+// ── SCROLL REVEAL — every element slides up ───────────────────────
+function slideUp(el, delay) {
+  gsap.fromTo(
+    el,
+    { y: 50, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.85,
+      delay: delay || 0,
+      ease: "power3.out",
+      clearProps: "all",
+    },
+  );
+}
+
+function observe(selector, delayFn) {
+  document.querySelectorAll(selector).forEach((el, i) => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !entry.target.dataset.revealed) {
+            entry.target.dataset.revealed = "1";
+            slideUp(entry.target, delayFn ? delayFn(i) : 0);
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -30px 0px" },
+    );
+    io.observe(el);
+  });
+}
+
+function initScrollAnimations() {
+  // Section labels
+  observe(".section-label");
+
+  // Section titles — line by line reveal
+  document.querySelectorAll(".section-title").forEach((el) => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !entry.target.dataset.revealed) {
+            entry.target.dataset.revealed = "1";
+            // wrap lines
+            entry.target.innerHTML = entry.target.innerHTML
+              .split("<br>")
+              .map(
+                (line) =>
+                  `<span class="title-line" style="display:block;overflow:hidden">` +
+                  `<span class="title-line-inner" style="display:block">${line}</span></span>`,
+              )
+              .join("");
+            gsap.fromTo(
+              entry.target.querySelectorAll(".title-line-inner"),
+              { y: "100%" },
+              {
+                y: "0%",
+                duration: 0.9,
+                stagger: 0.18,
+                ease: "power3.out",
+                clearProps: "all",
+              },
+            );
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+  });
+
+  // About text paragraphs — stagger each <p>
+  observe("#about .about-text p", (i) => i * 0.12);
+
+  // Skill chips — wave stagger
+  observe(".skill-chip", (i) => i * 0.07);
+
+  // Projects section header pieces
+  observe("#projects .section-label");
+  observe("#projects .section-title");
+
+  // Project cards
+  document.querySelectorAll(".project-card").forEach((el, i) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(40px)";
+    el.style.transition = `opacity 0.75s ease ${i * 0.1}s, transform 0.75s ease ${i * 0.1}s`;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08 },
+    );
+    io.observe(el);
+  });
+
+  // Experience section
+  observe("#experience .section-label");
+  observe("#experience .section-title");
+  observe(".timeline-item", (i) => i * 0.15);
+
+  // Contact section
+  observe("#contact .section-label");
+  observe("#contact .section-title");
+  observe(".contact-card p");
+  observe(".contact-link", (i) => i * 0.1);
+  observe("#contact .btn-primary");
+}
+
+document.addEventListener("DOMContentLoaded", initScrollAnimations);
+
+// ================================================================
+//  GAME ENGINE
 // ================================================================
 
 const canvas = document.getElementById("game-canvas");
 const ctx = canvas.getContext("2d");
 
-// Responsive canvas
 function resizeCanvas() {
   const wrap = document.getElementById("game-wrap");
   canvas.width = wrap.clientWidth;
@@ -15,14 +162,9 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", () => {
   resizeCanvas();
-  if (gameState === "playing") {
-    buildLevel();
-  } else {
-    drawStaticFrame();
-  }
+  gameState === "playing" ? buildLevel() : drawStaticFrame();
 });
 
-// ── Palette ───────────────────────────────────────────────────────
 const COL = {
   sky1: "#5BBCF5",
   sky2: "#C8ECFF",
@@ -34,18 +176,15 @@ const COL = {
   red: "#FF2020",
   yellow: "#FFD700",
   white: "#FFFFFF",
-  orange: "#FF6B00",
 };
 
-// ── State ─────────────────────────────────────────────────────────
-let gameState = "idle"; // idle | playing | dead | win
+let gameState = "idle";
 let score = 0,
   ringsTotal = 0,
   ringsGot = 0,
   lives = 3;
 let animId = null;
 
-// ── Input ─────────────────────────────────────────────────────────
 const keys = { left: false, right: false, space: false };
 window.addEventListener("keydown", (e) => {
   if (e.code === "ArrowLeft") {
@@ -67,28 +206,22 @@ window.addEventListener("keyup", (e) => {
   if (e.code === "Space") keys.space = false;
 });
 
-// ── Physics constants ─────────────────────────────────────────────
 const BALL_R = 18;
 const GRAVITY = 0.52;
 const JUMP_V = -13.5;
 const MOVE_SPD = 4.8;
 
-// ── Entities ──────────────────────────────────────────────────────
 let ball = {};
 let platforms = [],
   rings = [],
   spiders = [],
   particles = [];
 
-// ── Build level (layout based on current canvas size) ────────────
 function buildLevel() {
   const W = canvas.width,
     H = canvas.height;
-
   platforms = [
-    // Ground
     { x: 0, y: H - 52, w: W, h: 52, ground: true },
-    // Floating platforms
     { x: W * 0.04, y: H - 52 - 95, w: W * 0.17, h: 14, ground: false },
     { x: W * 0.27, y: H - 52 - 145, w: W * 0.15, h: 14, ground: false },
     { x: W * 0.48, y: H - 52 - 105, w: W * 0.14, h: 14, ground: false },
@@ -96,8 +229,6 @@ function buildLevel() {
     { x: W * 0.36, y: H - 52 - 225, w: W * 0.14, h: 14, ground: false },
     { x: W * 0.14, y: H - 52 - 200, w: W * 0.15, h: 14, ground: false },
   ];
-
-  // Rings above each floating platform
   rings = [];
   for (let i = 1; i < platforms.length; i++) {
     const p = platforms[i];
@@ -114,11 +245,7 @@ function buildLevel() {
   }
   ringsTotal = rings.length;
   ringsGot = 0;
-
-  // Spiders patrol platforms
   spiders = [makSpider(3, 0.5, -2.0), makSpider(4, 0.3, 1.4)];
-
-  // Ball starts on first floating platform
   const sp = platforms[1];
   ball = {
     x: sp.x + sp.w * 0.5,
@@ -146,7 +273,6 @@ function makSpider(platIdx, relX, speed) {
   };
 }
 
-// ── Update functions ──────────────────────────────────────────────
 function updateBall() {
   if (keys.left) ball.vx = -MOVE_SPD;
   else if (keys.right) ball.vx = MOVE_SPD;
@@ -163,12 +289,9 @@ function updateBall() {
   ball.vy += GRAVITY;
   ball.x += ball.vx;
   ball.y += ball.vy;
-
-  // Squish spring back
   ball.sqY += (1 - ball.sqY) * 0.18;
   ball.sqX += (1 - ball.sqX) * 0.18;
 
-  // Platform collision (top only, falling down)
   ball.onGround = false;
   for (const p of platforms) {
     const inX = ball.x + BALL_R > p.x && ball.x - BALL_R < p.x + p.w;
@@ -186,16 +309,12 @@ function updateBall() {
       break;
     }
   }
-
-  // Horizontal wrap
   if (ball.x - BALL_R > canvas.width) ball.x = -BALL_R;
   if (ball.x + BALL_R < 0) ball.x = canvas.width + BALL_R;
-
-  // Fell off bottom
   if (ball.y - BALL_R > canvas.height + 30) onDeath();
 }
 
-function updateRings(t) {
+function updateRings() {
   for (const ring of rings) {
     if (ring.collected) continue;
     ring.phase += 0.045;
@@ -224,7 +343,6 @@ function updateSpiders() {
       s.dir = -1;
     }
     const sy = p.y - s.h;
-    // Hit detection
     if (
       ball.x + BALL_R * 0.65 > s.x &&
       ball.x - BALL_R * 0.65 < s.x + s.w &&
@@ -246,7 +364,6 @@ function updateParticles() {
   particles = particles.filter((p) => p.life > 0);
 }
 
-// ── Events ────────────────────────────────────────────────────────
 function onDeath() {
   burst(ball.x, ball.y, COL.red, 14);
   lives--;
@@ -270,7 +387,6 @@ function onWin() {
   setTimeout(() => show("screen-win"), 500);
 }
 
-// ── Particles ─────────────────────────────────────────────────────
 function burst(x, y, color, count) {
   for (let i = 0; i < count; i++) {
     const a = ((Math.PI * 2) / count) * i;
@@ -286,23 +402,19 @@ function burst(x, y, color, count) {
     });
   }
 }
-// Load cloud image once — black background knocked out with 'screen' blend
+
 const cloudImg = new Image();
-cloudImg.src = "image/cloud_12132011.png ";
+cloudImg.src = "image/cloud_12132011.png";
 cloudImg.onload = () => drawStaticFrame();
 
-// ── Draw ──────────────────────────────────────────────────────────
-function drawScene(t) {
+function drawScene() {
   const W = canvas.width,
     H = canvas.height;
-
-  // Sky
   const sg = ctx.createLinearGradient(0, 0, 0, H);
   sg.addColorStop(0, COL.sky1);
   sg.addColorStop(1, COL.sky2);
   ctx.fillStyle = sg;
   ctx.fillRect(0, 0, W, H);
-
   drawClouds(W, H);
   drawPlatforms();
   drawRings();
@@ -312,19 +424,19 @@ function drawScene(t) {
 }
 
 function drawClouds(W, H) {
+  if (!cloudImg.complete || !cloudImg.naturalWidth) return;
   const clouds = [
     { x: W * 0.08, y: H * 0.1, w: 110, h: 55 },
     { x: W * 0.5, y: H * 0.07, w: 140, h: 70 },
     { x: W * 0.82, y: H * 0.15, w: 100, h: 50 },
   ];
-  if (cloudImg.complete && cloudImg.naturalWidth > 0) {
-    clouds.forEach((c) => {
-      ctx.globalCompositeOperation = "screen"; // knocks out black background
-      ctx.drawImage(cloudImg, c.x, c.y, c.w, c.h);
-      ctx.globalCompositeOperation = "source-over"; // reset after each cloud
-    });
-  }
+  clouds.forEach((c) => {
+    ctx.globalCompositeOperation = "screen";
+    ctx.drawImage(cloudImg, c.x, c.y, c.w, c.h);
+    ctx.globalCompositeOperation = "source-over";
+  });
 }
+
 function drawPlatforms() {
   for (const p of platforms) {
     ctx.lineWidth = 3;
@@ -344,7 +456,6 @@ function drawPlatforms() {
       ctx.fillRect(p.x, p.y + 5, p.w, p.h - 5);
       ctx.strokeStyle = COL.dark;
       ctx.strokeRect(p.x, p.y, p.w, p.h);
-      // Drop shadow
       ctx.fillStyle = "rgba(0,0,0,0.25)";
       ctx.fillRect(p.x + 4, p.y + p.h, p.w, 5);
     }
@@ -355,7 +466,6 @@ function drawRings() {
   for (const ring of rings) {
     if (ring.collected) continue;
     const ry = ring.baseY + Math.sin(ring.phase) * 5;
-    // Outer ring
     ctx.beginPath();
     ctx.arc(ring.x, ry, ring.r, 0, Math.PI * 2);
     ctx.strokeStyle = COL.yellow;
@@ -366,7 +476,6 @@ function drawRings() {
     ctx.strokeStyle = COL.dark;
     ctx.lineWidth = 1.5;
     ctx.stroke();
-    // Shine dot
     ctx.beginPath();
     ctx.arc(
       ring.x - ring.r * 0.35,
@@ -382,13 +491,11 @@ function drawRings() {
 
 function drawSpidersShape() {
   for (const s of spiders) {
-    const p = platforms[s.pi];
-    const sy = p.y - s.h;
+    const p = platforms[s.pi],
+      sy = p.y - s.h;
     ctx.save();
     ctx.translate(s.x + s.w / 2, sy + s.h / 2);
     if (s.dir < 0) ctx.scale(-1, 1);
-
-    // Body
     ctx.beginPath();
     ctx.ellipse(0, 0, s.w / 2 - 1, s.h / 2 - 1, 0, 0, Math.PI * 2);
     ctx.fillStyle = "#1a1a1a";
@@ -396,8 +503,6 @@ function drawSpidersShape() {
     ctx.strokeStyle = COL.dark;
     ctx.lineWidth = 2;
     ctx.stroke();
-
-    // Eyes
     ctx.fillStyle = COL.red;
     ctx.beginPath();
     ctx.arc(-s.w * 0.18, -s.h * 0.12, 3.5, 0, Math.PI * 2);
@@ -405,11 +510,9 @@ function drawSpidersShape() {
     ctx.beginPath();
     ctx.arc(s.w * 0.18, -s.h * 0.12, 3.5, 0, Math.PI * 2);
     ctx.fill();
-
-    // Legs
     ctx.strokeStyle = "#444";
     ctx.lineWidth = 1.5;
-    [-0.2, 0.05, 0.3].forEach((t, i) => {
+    [-0.2, 0.05, 0.3].forEach((t) => {
       ctx.beginPath();
       ctx.moveTo(-s.w / 2 + 1, s.h * t);
       ctx.lineTo(-s.w / 2 - 9, s.h * (t - 0.12));
@@ -419,7 +522,6 @@ function drawSpidersShape() {
       ctx.lineTo(s.w / 2 + 9, s.h * (t - 0.12));
       ctx.stroke();
     });
-
     ctx.restore();
   }
 }
@@ -429,14 +531,10 @@ function drawBallShape() {
   ctx.save();
   ctx.translate(x, y);
   ctx.scale(sqX, sqY);
-
-  // Shadow
   ctx.beginPath();
   ctx.ellipse(0, BALL_R + 3, BALL_R * 0.75, 5, 0, 0, Math.PI * 2);
   ctx.fillStyle = "rgba(0,0,0,0.22)";
   ctx.fill();
-
-  // Ball
   const g = ctx.createRadialGradient(
     -BALL_R * 0.3,
     -BALL_R * 0.3,
@@ -455,8 +553,6 @@ function drawBallShape() {
   ctx.strokeStyle = COL.dark;
   ctx.lineWidth = 3;
   ctx.stroke();
-
-  // Shine
   ctx.beginPath();
   ctx.ellipse(
     -BALL_R * 0.3,
@@ -469,7 +565,6 @@ function drawBallShape() {
   );
   ctx.fillStyle = "rgba(255,255,255,0.52)";
   ctx.fill();
-
   ctx.restore();
 }
 
@@ -487,7 +582,6 @@ function drawParticleLayer() {
   ctx.globalAlpha = 1;
 }
 
-// ── HUD ───────────────────────────────────────────────────────────
 function updateHUD() {
   document.getElementById("hud-score").textContent = score;
   document.getElementById("hud-rings").textContent =
@@ -497,7 +591,6 @@ function updateHUD() {
   );
 }
 
-// ── Overlay helpers ───────────────────────────────────────────────
 function show(id) {
   document.getElementById(id).style.display = "flex";
 }
@@ -507,28 +600,22 @@ function hideAll() {
   });
 }
 
-// ── Game loop ─────────────────────────────────────────────────────
-let lastT = 0;
 function loop(ts) {
   if (gameState !== "playing") return;
-  lastT = ts;
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawScene(ts);
+  drawScene();
   updateBall();
-  updateRings(ts);
+  updateRings();
   updateSpiders();
   updateParticles();
-
   animId = requestAnimationFrame(loop);
 }
 
 function drawStaticFrame() {
   buildLevel();
-  drawScene(0);
+  drawScene();
 }
 
-// ── Start / Restart ───────────────────────────────────────────────
 function startGame() {
   cancelAnimationFrame(animId);
   hideAll();
@@ -542,10 +629,9 @@ document.getElementById("btn-start").addEventListener("click", startGame);
 document.getElementById("btn-restart").addEventListener("click", startGame);
 document.getElementById("btn-next").addEventListener("click", startGame);
 
-// Draw idle preview on load
 drawStaticFrame();
 
-// ── Cursor ────────────────────────────────────────────────────────
+// ── Custom cursor ─────────────────────────────────────────────────
 const cur = document.getElementById("cursor");
 document.addEventListener("mousemove", (e) => {
   cur.style.left = e.clientX + "px";
@@ -554,39 +640,13 @@ document.addEventListener("mousemove", (e) => {
 document.addEventListener("mousedown", () => cur.classList.add("squish"));
 document.addEventListener("mouseup", () => cur.classList.remove("squish"));
 
-// ── Scroll reveals ────────────────────────────────────────────────
-const obs = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = "1";
-        e.target.style.transform = "translateY(0)";
-      }
-    });
-  },
-  { threshold: 0.15 },
-);
-document.querySelectorAll(".project-card, .timeline-item").forEach((el) => {
-  el.style.opacity = "0";
-  el.style.transform = "translateY(28px)";
-  el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-  obs.observe(el);
-});
-
-// Touch controls — only show on touch devices
-function isTouchDevice() {
-  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
-}
-
-if (isTouchDevice()) {
+// ── Touch controls ────────────────────────────────────────────────
+if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
   document.getElementById("touch-controls").classList.add("visible");
-
-  // Swap start screen instructions to button symbols
   document.querySelector("#screen-start p").innerHTML =
     "◀ ▶ MOVE &nbsp;|&nbsp; ▲ JUMP<br>COLLECT ALL RINGS · AVOID SPIDERS<br>FALL OFF = LOSE A LIFE";
 }
 
-// Wire each button to the same keys{} object the keyboard uses
 function wireTouchBtn(id, key) {
   const btn = document.getElementById(id);
   btn.addEventListener(
@@ -607,18 +667,17 @@ function wireTouchBtn(id, key) {
     },
     { passive: false },
   );
-  btn.addEventListener("touchcancel", (e) => {
+  btn.addEventListener("touchcancel", () => {
     keys[key] = false;
     btn.classList.remove("pressed");
   });
 }
-
 wireTouchBtn("tbtn-left", "left");
 wireTouchBtn("tbtn-right", "right");
 wireTouchBtn("tbtn-jump", "space");
 
-// ── Sliding Tile Puzzle ──────────────────────────────────────────
-const TILES = ["🔴", "⚡", "★", "🎮", "💻", "🎨", "🌍", "🏆", null]; // null = empty
+// ── Sliding Tile Puzzle ───────────────────────────────────────────
+const TILES = ["🔴", "⚡", "★", "🎮", "💻", "🎨", "🌍", "🏆", null];
 let puzzleState = [],
   moveCount = 0;
 
@@ -631,7 +690,6 @@ function initPuzzle() {
 }
 
 function shufflePuzzle() {
-  // Do 80 random valid moves from solved state to guarantee solvability
   let blank = puzzleState.indexOf(null);
   for (let i = 0; i < 80; i++) {
     const neighbors = getNeighbors(blank);
@@ -650,10 +708,10 @@ function getNeighbors(idx) {
   const row = Math.floor(idx / 3),
     col = idx % 3,
     n = [];
-  if (row > 0) n.push(idx - 3); // up
-  if (row < 2) n.push(idx + 3); // down
-  if (col > 0) n.push(idx - 1); // left
-  if (col < 2) n.push(idx + 1); // right
+  if (row > 0) n.push(idx - 3);
+  if (row < 2) n.push(idx + 3);
+  if (col > 0) n.push(idx - 1);
+  if (col < 2) n.push(idx + 1);
   return n;
 }
 
@@ -661,7 +719,6 @@ function renderPuzzle() {
   const grid = document.getElementById("puzzle-grid");
   grid.innerHTML = "";
   const isSolved = puzzleState.every((v, i) => v === TILES[i]);
-
   puzzleState.forEach((val, i) => {
     const tile = document.createElement("div");
     tile.className =
@@ -669,15 +726,11 @@ function renderPuzzle() {
       (val === null ? " empty" : "") +
       (isSolved && val !== null ? " correct" : "");
     tile.textContent = val || "";
-    if (val !== null) {
-      tile.addEventListener("click", () => moveTile(i));
-    }
+    if (val !== null) tile.addEventListener("click", () => moveTile(i));
     grid.appendChild(tile);
   });
-
-  if (isSolved && moveCount > 0) {
+  if (isSolved && moveCount > 0)
     document.getElementById("puzzle-solved").style.display = "block";
-  }
 }
 
 function moveTile(idx) {
