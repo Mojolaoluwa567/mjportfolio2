@@ -1,467 +1,571 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MJ Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MJ — Web developer in Lagos</title>
+    <meta
+      name="description"
+      content="MJ (Adeogun Mojola) builds fast, interactive websites, from pixel-perfect interfaces to immersive 3D. Based in Lagos, Nigeria."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:title" content="MJ — Frontend developer in Lagos" />
+    <meta
+      property="og:description"
+      content="Fast, slick, interactive websites. Scroll through the portfolio, then find the secret level."
+    />
+    <meta property="og:type" content="website" />
+    <!-- TODO: add <meta property="og:image" content="..."> once you have a share image (1200x630). -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
     <link
-      rel="shortcut icon"
-      href="image/puzzle_1516813.png"
-      type="image/x-icon"
+      rel="preload"
+      href="fonts/DarevaTrialRegular-ARa4p.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
     />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="image/favy.png" type="image/x-icon" />
+    <script>
+      /* Decide early whether the scroll-driven layout is used, so the page never flashes the wrong layout. */
+      (function () {
+        var d = document.documentElement;
+        d.classList.remove("no-js");
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          d.classList.add("anim");
+        }
+      })();
+    </script>
   </head>
 
   <body>
-    <div id="cursor"></div>
+    <a class="skip" href="#work">Skip to projects</a>
+    <div id="cursor" aria-hidden="true"></div>
 
-    <!-- INTRO — split curtain -->
-    <div id="intro-screen">
-      <div class="intro-curtain-a"></div>
-      <div class="intro-curtain-b"></div>
-      <div class="intro-logo"></div>
-    </div>
-
-    <nav>
-      <div class="nav-logo"><span class="nav-ball"></span>ADEOGUN MOJOLA</div>
-      <ul class="nav-links">
-        <li><a href="#about">SKILLS</a></li>
-        <li><a href="#projects">WORK</a></li>
-        <li><a href="#experience">XP</a></li>
-        <li><a href="#contact">CONTACT</a></li>
-      </ul>
-    </nav>
-
-    <section id="hero">
-      <div id="game-wrap">
-        <canvas id="game-canvas"></canvas>
-
-        <div id="game-hud">
-          <span>SCORE: <span id="hud-score">0</span></span>
-          <span>RINGS: <span id="hud-rings">0/0</span></span>
-          <span class="hud-lives">LIVES: <span id="hud-lives">♥♥♥</span></span>
-        </div>
-
-        <div class="game-overlay" id="screen-start">
-          <h2>★ BOUNCE ★</h2>
-          <p>
-            ← → MOVE &nbsp;|&nbsp; SPACE JUMP<br />COLLECT ALL RINGS · AVOID
-            SPIDERS<br />FALL OFF = LOSE A LIFE
-          </p>
-          <button class="btn-play" id="btn-start">▶ PLAY</button>
-        </div>
-
-        <div class="game-overlay" id="screen-gameover" style="display: none">
-          <h2>GAME OVER</h2>
-          <div class="score-big">SCORE: <span id="final-score">0</span></div>
-          <p>YOU FELL OFF THE PLATFORM!</p>
-          <button class="btn-play" id="btn-restart">▶ TRY AGAIN</button>
-          <a
-            href="#about"
-            class="btn-play"
-            style="background: #1a1aff; margin-top: 0"
-            >↓ VIEW PORTFOLIO</a
-          >
-        </div>
-
-        <div class="game-overlay" id="screen-win" style="display: none">
-          <h2>LEVEL CLEAR! ★</h2>
-          <div class="score-big">SCORE: <span id="win-score">0</span></div>
-          <p>ALL RINGS COLLECTED! NICE ONE!</p>
-          <button class="btn-play" id="btn-next">▶ PLAY AGAIN</button>
-          <a
-            href="#about"
-            class="btn-play"
-            style="background: #00aa44; margin-top: 0"
-            >↓ VIEW PORTFOLIO</a
-          >
-        </div>
-
-        <!-- Touch Controls (mobile only) -->
-        <div id="touch-controls">
-          <div class="touch-dpad">
-            <button class="touch-btn" id="tbtn-left">◀</button>
-            <button class="touch-btn" id="tbtn-right">▶</button>
-          </div>
-          <button class="touch-btn touch-jump" id="tbtn-jump">▲</button>
-        </div>
-      </div>
-
-      <article class="lr">
-        <div class="hero-info-left">
-          <h1>HELLO. I'M <span>MJ.</span><br />I BUILD WEBSITES.</h1>
-          <p>
-            Frontend Developer crafting fast, slick, and interactive web
-            experiences from pixel-perfect interfaces to immersive 3D
-            environments. I specialize in building responsive, high-performance
-            websites using modern technologies, with a strong focus on smooth
-            animations and intuitive user interactions. Based in Lagos,
-            constantly refining my craft and pushing creative boundaries.
-          </p>
-          <div class="hero-ctas">
-            <a href="#projects" class="btn-primary">▶ SEE WORK</a>
-            <a href="#contact" class="btn-secondary">
-              <span class="smallie">⚡</span> HIRE ME</a
-            >
-          </div>
-        </div>
-
-        <div class="puzzle-panel">
-          <div class="puzzle-label">★ MINI PUZZLE — CAN YOU SOLVE IT?</div>
-          <div id="puzzle-grid"></div>
-          <div class="puzzle-moves">MOVES: <span id="move-count">0</span></div>
-          <div class="puzzle-solved" id="puzzle-solved">
-            ✓ SOLVED!<br />YOU'RE HIRED.
-          </div>
-          <button class="btn-shuffle" id="btn-shuffle">↺ SHUFFLE</button>
-        </div>
-      </article>
-    </section>
-
-    <div class="pixel-divider"></div>
-
-    <section id="about">
-      <div class="section-header">
-        <div class="section-label">★ LEVEL 02 — SKILLS</div>
-        <h2 class="section-title">POWER-UPS COLLECTED</h2>
-      </div>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            I'm a frontend developer with an eye for design and a love for
-            creative, immersive web experiences. I turn complex ideas into
-            clean, fast, beautiful interfaces.
-          </p>
-          <p>
-            I've shipped websites for agriculture companies, education
-            consultancies, and personal brand projects every build is another
-            level cleared.
-          </p>
-          <p>
-            When I'm not writing code, I'm studying, making music, or obsessing
-            over motion and 3D design.
-          </p>
-        </div>
-        <div class="skills-grid">
-          <div class="skill-chip">
-            <span class="skill-dot"></span>HTML / CSS
-          </div>
-          <div class="skill-chip">
-            <span class="skill-dot"></span>JAVASCRIPT
-          </div>
-          <div class="skill-chip"><span class="skill-dot"></span>THREE.JS</div>
-          <div class="skill-chip"><span class="skill-dot"></span>GSAP</div>
-          <div class="skill-chip"><span class="skill-dot"></span>REACT</div>
-          <div class="skill-chip"><span class="skill-dot"></span>BOOTSTRAP</div>
-          <div class="skill-chip"><span class="skill-dot"></span>FIGMA</div>
-          <div class="skill-chip"><span class="skill-dot"></span>NEXT.JS</div>
-          <div class="skill-chip">
-            <span class="skill-dot"></span>GIT / GITHUB
-          </div>
-          <div class="skill-chip">
-            <span class="skill-dot"></span>RESPONSIVENESS
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="pixel-divider"></div>
-
-    <section id="projects">
-      <div class="section-header">
-        <div class="section-label">★ LEVEL 03 — WORK</div>
-        <h2 class="section-title">PROJECTS UNLOCKED</h2>
-      </div>
-      <div class="projects-grid">
-        <div class="project-card">
-          <div class="card-level">LVL 01</div>
-          <div class="card-visual" style="background: #6a00b6">
-            <div class="card-visual-bg">
-              <img
-                src="image/travel_10913730.png"
-                alt=""
-                style="
-                  height: 80px;
-                  display: block;
-                  margin-top: 2rem;
-                  margin-left: 8.5rem;
-                "
-              />
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="card-title">3D SOLAR SYSTEM<br />PORTFOLIO</div>
-            <p class="card-desc">
-              An interactive 3D solar system built as an immersive portfolio
-              experience, where each planet represents a unique project “world.”
-              Developed with Three.js, the experience features realistic
-              planetary textures, atmospheric glow effects, and smooth camera
-              transitions. Users can explore the system through raycaster-based
-              interaction, creating a spatial, cinematic way of navigating
-              projects rather than a traditional grid layout.
-            </p>
-            <div class="card-tags">
-              <span class="tag">THREE.JS</span><span class="tag">GSAP</span
-              ><span class="tag">RAYCASTER</span>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="card-link">VIEW →</a>
-              <div class="rings-collected">
-                <span class="mini-ring"></span><span class="mini-ring"></span
-                ><span class="mini-ring"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="card-level">LVL 02</div>
-          <div class="card-visual" style="background: #ff5df7">
-            <div class="card-visual-bg">
-              <img
-                src="image/table_2628757.png"
-                alt=""
-                style="
-                  height: 80px;
-                  display: block;
-                  margin-top: 2rem;
-                  margin-left: 8.5rem;
-                "
-              />
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="card-title">QPAT SOLUTIONS<br />WEBSITE</div>
-            <p class="card-desc">
-              QPAT is an educational consultancy platform that helps students
-              access international scholarship opportunities through guidance on
-              standardized and entrance examinations. The website was redesigned
-              as a multi-page luxury digital experience, featuring a dark
-              editorial aesthetic, smooth scrolling powered by Locomotive
-              Scroll, a custom interactive cursor, and a refined visual identity
-              system. The project focuses on building trust, improving
-              information architecture, and creating an immersive user
-              experience that reflects the premium nature of educational
-              consulting services.
-            </p>
-            <div class="card-tags">
-              <span class="tag">React</span><span class="tag">Next.js</span
-              ><span class="tag">Tailwind CSS</span>
-            </div>
-            <div class="card-footer">
-              <a href="https://qpat.netlify.app/" class="card-link">VIEW →</a>
-              <div class="rings-collected">
-                <span class="mini-ring"></span><span class="mini-ring"></span
-                ><span class="mini-ring"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="card-level">LVL 03</div>
-          <div class="card-visual" style="background: #0f5d0f">
-            <div class="card-visual-bg">
-              <span
-                style="
-                  height: 80px;
-                  zoom: 4;
-                  display: block;
-                  margin-top: 3.3rem;
-                  margin-left: 0.5rem;
-                "
-                >🌾</span
-              >
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="card-title">ABP INDUSTRIES<br />WEBSITE</div>
-            <p class="card-desc">
-              A luxury interactive website for a premium garri brand, designed
-              to elevate traditional agricultural packaging into a modern
-              digital experience. The site features a bold green and gold brand
-              palette, smooth scroll-based storytelling, GSAP driven animations,
-              and layered visual sections that reflect a high end product
-              identity. Each garri size variant is paired with its own
-              custom-designed packaging concept, emphasizing clarity, hierarchy,
-              and premium shelf appeal.
-            </p>
-            <div class="card-tags">
-              <span class="tag">HTML/CSS</span
-              ><span class="tag"> Javascript & GSAP</span
-              ><span class="tag">Three.js</span>
-            </div>
-            <div class="card-footer">
-              <a href="https://abpindustries.netlify.app/" class="card-link"
-                >VIEW →</a
-              >
-              <div class="rings-collected">
-                <span class="mini-ring"></span><span class="mini-ring"></span
-                ><span class="mini-ring"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="card-level">LVL 04</div>
-          <div class="card-visual" style="background: #222">
-            <div class="card-visual-bg">
-              <img
-                src="image/laundry_2954918.png"
-                alt=""
-                style="
-                  height: 80px;
-                  display: block;
-                  margin-top: 2rem;
-                  margin-left: 8.5rem;
-                "
-              />
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="card-title">URBANHIVE<br />BRAND SITE</div>
-            <p class="card-desc">
-              A complete redesign of a clothing brand digital experience,
-              featuring a structured multi-page architecture (Home, About, Shop,
-              Contact) with a fully responsive e-commerce interface. The system
-              includes a custom admin dashboard powered by localStorage for
-              product creation and management, simulating backend-like
-              functionality without server infrastructure. The focus is on
-              scalable UI architecture, intuitive product browsing, and
-              streamlined content control for non-technical users.
-            </p>
-            <div class="card-tags">
-              <span class="tag">JS</span><span class="tag">LOCALSTORAGE</span
-              ><span class="tag">HTML/CSS</span>
-              <span class="tag">Javascript</span>
-            </div>
-            <div class="card-footer">
-              <a href="https://urbanhive-chi.vercel.app/" class="card-link"
-                >VIEW →</a
-              >
-              <div class="rings-collected">
-                <span class="mini-ring"></span><span class="mini-ring"></span
-                ><span class="mini-ring"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="pixel-divider"></div>
-
-    <section id="experience">
-      <div class="section-header">
-        <div class="section-label">★ LEVEL 04 — XP</div>
-        <h2 class="section-title">EXPERIENCE LOG</h2>
-      </div>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-ball">💼</div>
-          <div class="timeline-content">
-            <div class="timeline-year">2021 — 2023</div>
-            <div class="timeline-role">APTECH LEARNING</div>
-            <div class="timeline-company">TRAINING — Lagos, Nigeria</div>
-            <p class="timeline-desc">
-              Learning full stack development, UIUX. Specializing in creative,
-              interactive frontends with smooth animations and strong visual
-              identities.
-            </p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-ball">🎨</div>
-          <div class="timeline-content">
-            <div class="timeline-year">2024 — PRESENT</div>
-            <div class="timeline-role">WEB DESIGNER & DEVELOPER</div>
-            <div class="timeline-company">Freelance Projects</div>
-            <p class="timeline-desc">
-              Delivered full scope web projects from design to deployment for
-              companies across Nigeria — agriculture, education, fashion.
-            </p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-ball">📚</div>
-          <div class="timeline-content">
-            <div class="timeline-year">ONGOING</div>
-            <div class="timeline-role">ADVANCED WEB DEV / DESIGNER</div>
-            <div class="timeline-company">
-              Interactiveness and Design Focused
-            </div>
-            <p class="timeline-desc">
-              Continuously studying advanced frontend tech, javascript
-              libraries, advance animations with GSAP and lenis.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="pixel-divider"></div>
-
-    <section id="contact">
-      <div class="section-header">
-        <div class="section-label">★ FINAL LEVEL — CONTACT</div>
-        <h2 class="section-title">GAME CLEAR.<br />LET'S CONNECT.</h2>
-      </div>
-      <div class="contact-wrap">
-        <div class="contact-card">
-          <p>
-            You've collected all the rings. The exit gate is open. Drop me a
-            message — I'm open to freelance work, collabs, and interesting
-            projects.
-          </p>
-          <div class="contact-links">
-            <a href="mailto:hello@mj.dev" class="contact-link">📧 EMAIL</a>
-            <a href="https://github.com/Mojolaoluwa567" class="contact-link"
-              >🐙 GITHUB</a
-            >
-            <a
-              href="https://www.linkedin.com/in/adeogunmojola/"
-              class="contact-link"
-              >💼 LINKEDIN</a
-            >
-            <a href="https://x.com/boomaye0" class="contact-link">🐦 TWITTER</a>
-          </div>
-          <a
-            href="https://www.linkedin.com/in/adeogunmojola/"
-            class="btn-primary"
-            style="display: inline-block"
-            >▶ START A PROJECT</a
-          >
-        </div>
-      </div>
-    </section>
-
-    <div class="game-over-footer">
-      AM.DEV © 2026 — ALL RIGHTS RESERVED — PRESS START TO PLAY AGAIN ★
-    </div>
-
-    <div class="score-bar">
-      <div class="score-ticker">
-        <span>★ SCORE: 99999</span><span class="ticker-sep">///</span>
-        <span>RINGS: ∞ COLLECTED</span><span class="ticker-sep">///</span>
-        <span>STATUS: AVAILABLE FOR HIRE</span
-        ><span class="ticker-sep">///</span> <span>LEVEL: FRONTEND DEV</span
-        ><span class="ticker-sep">///</span> <span>LOCATION: LAGOS, NG</span
-        ><span class="ticker-sep">///</span> <span>★ SCORE: 99999</span
-        ><span class="ticker-sep">///</span> <span>RINGS: ∞ COLLECTED</span
-        ><span class="ticker-sep">///</span>
-        <span>STATUS: AVAILABLE FOR HIRE</span
-        ><span class="ticker-sep">///</span> <span>LEVEL: FRONTEND DEV</span
-        ><span class="ticker-sep">///</span> <span>LOCATION: LAGOS, NG</span
-        ><span class="ticker-sep">///</span>
+    <!-- Boot screen -->
+    <div id="loader" role="status" aria-live="polite">
+      <div class="loader-box">
+        <p class="loader-title">LOADING</p>
+        <div class="loader-bar"><i id="loader-fill"></i></div>
+        <p class="loader-pct"><span id="loader-num">0</span>%</p>
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- Fixed game HUD: brand, current level, nav, scroll progress, ticker -->
+    <header class="hud">
+      <a class="hud-brand" href="#opening" data-go="opening">
+        <span class="hud-ball" aria-hidden="true"></span>ADEOGUN MOJOLA
+      </a>
+      <p class="hud-level" id="hud-level" aria-hidden="true">LVL 01/05 START</p>
+      <nav class="hud-nav" aria-label="Sections">
+        <a href="#skills" data-go="skills">SKILLS</a>
+        <a href="#work" data-go="work">WORK</a>
+        <a href="#xp" data-go="xp">XP</a>
+        <a href="#contact" data-go="contact">CONTACT</a>
+      </nav>
+    </header>
+    <div class="hud-progress" aria-hidden="true">
+      <i id="progress-fill"></i>
+    </div>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>★ SCORE: 99999</span><span>///</span
+        ><span>RINGS: ∞ COLLECTED</span><span>///</span
+        ><span>STATUS: AVAILABLE FOR HIRE</span><span>///</span
+        ><span>LEVEL: FRONTEND DEV</span><span>///</span
+        ><span>LOCATION: LAGOS, NG</span><span>///</span>
+        <span>★ SCORE: 99999</span><span>///</span
+        ><span>RINGS: ∞ COLLECTED</span><span>///</span
+        ><span>STATUS: AVAILABLE FOR HIRE</span><span>///</span
+        ><span>LEVEL: FRONTEND DEV</span><span>///</span
+        ><span>LOCATION: LAGOS, NG</span><span>///</span>
+      </div>
+    </div>
+
+    <main id="top">
+      <!-- ============ 01 · START ============ -->
+      <section id="opening" class="scene" data-lvl="1" data-name="START">
+        <div class="pin">
+          <!-- White layer: typed hello, then the camera zooms into the cursor block -->
+          <div class="layer layer--paper" id="open-white">
+            <div class="zoom-group" id="zoom-group">
+              <h1 class="hero-title" aria-label="Hello. I'm MJ.">
+                <span class="line" aria-hidden="true" data-type>HELLO.</span>
+                <span class="line" aria-hidden="true"
+                  ><span data-type>I'M MJ</span
+                  ><span class="cursor-block" id="cursor-block"></span
+                ></span>
+              </h1>
+              <p class="hero-sub" data-type>I build websites.</p>
+            </div>
+            <p class="scroll-hint" id="scroll-hint" aria-hidden="true">
+              Scroll to start <span class="hint-arrow">▼</span>
+            </p>
+          </div>
+
+          <!-- Black layer: the stage that later zooms out. Now holds the
+         power-ups showcase instead of the old single paragraph. -->
+          <div class="layer layer--clear" id="open-black">
+            <div class="stage" id="stage">
+              <div
+                class="powergrid"
+                id="powergrid"
+                aria-label="Skills showcase"
+              >
+                <div class="ptile" data-skill="3d" data-demo="three">
+                  <span class="ptile-label">3D</span>
+                  <span class="ptile-sub">THREE.JS / WEBGL</span>
+                  <canvas class="ptile-canvas" aria-hidden="true"></canvas>
+                </div>
+
+                <div class="ptile" data-skill="particles" data-demo="particles">
+                  <span class="ptile-label">PARTICLES</span>
+                  <span class="ptile-sub">CANVAS / PHYSICS</span>
+                  <canvas class="ptile-canvas" aria-hidden="true"></canvas>
+                </div>
+
+                <div class="ptile" data-skill="pixels">
+                  <span class="ptile-label">PIXELS</span>
+                  <span class="ptile-sub">PIXEL-ART UI</span>
+                  <div
+                    class="ptile-visual ptile-visual--pixels"
+                    aria-hidden="true"
+                  >
+                    <div class="pixel-block"></div>
+                  </div>
+                </div>
+
+                <div class="ptile" data-skill="motion">
+                  <span class="ptile-label">MOTION</span>
+                  <span class="ptile-sub">GSAP / SCROLLTRIGGER</span>
+                  <div
+                    class="ptile-visual ptile-visual--motion"
+                    aria-hidden="true"
+                  >
+                    <span class="motion-dot"></span>
+                    <span class="motion-dot"></span>
+                    <span class="motion-dot"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 02 · SKILLS ============ -->
+      <section id="skills" class="scene" data-lvl="2" data-name="SKILLS">
+        <div class="pin">
+          <div class="layer layer--paper skills-layer" id="skills-layer">
+            <div class="marquee-bg" aria-hidden="true">
+              <span id="marquee"
+                >POWER-UPS ★ POWER-UPS ★ POWER-UPS ★ POWER-UPS ★ POWER-UPS ★
+                POWER-UPS ★</span
+              >
+            </div>
+            <div class="skills-wrap">
+              <div class="skills-head">
+                <h2 class="skills-title">POWER-UPS<br />COLLECTED</h2>
+                <p class="skills-count" aria-label="Skills collected">
+                  <b id="skills-count">10</b>/10
+                </p>
+              </div>
+              <ul class="slots">
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">HT</span
+                  ><span class="slot-name">HTML / CSS</span>
+                </li>
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">JS</span
+                  ><span class="slot-name">JAVASCRIPT</span>
+                </li>
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">3D</span
+                  ><span class="slot-name">THREE.JS</span>
+                </li>
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">GS</span
+                  ><span class="slot-name">GSAP</span>
+                </li>
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">RE</span
+                  ><span class="slot-name">REACT</span>
+                </li>
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">BS</span
+                  ><span class="slot-name">BOOTSTRAP</span>
+                </li>
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">FG</span
+                  ><span class="slot-name">FIGMA</span>
+                </li>
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">NX</span
+                  ><span class="slot-name">NEXT.JS</span>
+                </li>
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">GT</span
+                  ><span class="slot-name">GIT / GITHUB</span>
+                </li>
+                <li class="slot">
+                  <span class="slot-icon" aria-hidden="true">RS</span
+                  ><span class="slot-name">RESPONSIVE</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="layer layer--paper about-layer" id="about-layer">
+            <p class="about-text" id="about-text">
+              I'm a frontend developer with an eye for design and a love for
+              creative, immersive web experiences. I turn complex ideas into
+              clean, fast, beautiful interfaces. I've shipped websites for
+              agriculture companies, education consultancies, and personal brand
+              projects, and every build is another level cleared. When I'm not
+              writing code, I'm studying, making music, or obsessing over motion
+              and 3D design.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 03 · WORK ============ -->
+      <section id="work" class="scene" data-lvl="3" data-name="WORK">
+        <div class="pin work-pin">
+          <div class="pager" id="pager" aria-hidden="true">
+            <i class="on"></i><i></i><i></i><i></i>
+          </div>
+
+          <!-- Replace each project image: drop your screenshot into image/ and change the src below. -->
+          <article class="level level--paper">
+            <div class="level-inner">
+              <div class="level-text">
+                <p class="level-num"><span>LVL</span>01</p>
+                <h2 class="level-title">3D SOLAR SYSTEM PORTFOLIO</h2>
+                <p class="level-desc">
+                  An interactive 3D solar system where every planet is a project
+                  world. Explore it with raycaster interaction, real planet
+                  textures, glow effects and smooth camera moves.
+                </p>
+                <ul class="tags">
+                  <li>THREE.JS</li>
+                  <li>GSAP</li>
+                  <li>RAYCASTER</li>
+                </ul>
+                <!-- TODO: replace href="#" with the live link when this project is deployed. -->
+                <a class="btn" href="#">VIEW</a>
+              </div>
+              <figure class="level-shot">
+                <img
+                  src="image/placeholders/project-1.png"
+                  alt="Placeholder for a screenshot of the 3D solar system portfolio"
+                  width="800"
+                  height="500"
+                />
+              </figure>
+            </div>
+          </article>
+
+          <article class="level level--ink">
+            <div class="level-inner">
+              <div class="level-text">
+                <p class="level-num"><span>LVL</span>02</p>
+                <h2 class="level-title">QPAT SOLUTIONS WEBSITE</h2>
+                <p class="level-desc">
+                  A multi-page site for an educational consultancy that helps
+                  students win international scholarships. Dark editorial
+                  design, smooth scrolling with Locomotive Scroll and a custom
+                  cursor build trust and a premium feel.
+                </p>
+                <ul class="tags">
+                  <li>REACT</li>
+                  <li>NEXT.JS</li>
+                  <li>TAILWIND CSS</li>
+                </ul>
+                <a class="btn" href="https://qpat.netlify.app/">VIEW</a>
+              </div>
+              <figure class="level-shot">
+                <img
+                  src="image/placeholders/project-2.png"
+                  alt="Placeholder for a screenshot of the QPAT Solutions website"
+                  width="800"
+                  height="500"
+                />
+              </figure>
+            </div>
+          </article>
+
+          <article class="level level--paper">
+            <div class="level-inner">
+              <div class="level-text">
+                <p class="level-num"><span>LVL</span>03</p>
+                <h2 class="level-title">ABP INDUSTRIES WEBSITE</h2>
+                <p class="level-desc">
+                  A luxury interactive site for a premium garri brand. Green and
+                  gold branding, scroll-based storytelling with GSAP, and a
+                  custom packaging concept for every size.
+                </p>
+                <ul class="tags">
+                  <li>HTML/CSS</li>
+                  <li>JAVASCRIPT &amp; GSAP</li>
+                  <li>THREE.JS</li>
+                </ul>
+                <a class="btn" href="https://abpindustries.netlify.app/"
+                  >VIEW</a
+                >
+              </div>
+              <figure class="level-shot">
+                <img
+                  src="image/placeholders/project-3.png"
+                  alt="Placeholder for a screenshot of the ABP Industries website"
+                  width="800"
+                  height="500"
+                />
+              </figure>
+            </div>
+          </article>
+
+          <article class="level level--ink">
+            <div class="level-inner">
+              <div class="level-text">
+                <p class="level-num"><span>LVL</span>04</p>
+                <h2 class="level-title">URBANHIVE BRAND SITE</h2>
+                <p class="level-desc">
+                  A full redesign of a clothing brand: Home, About, Shop and
+                  Contact pages with a responsive store. A custom admin
+                  dashboard on localStorage lets non-technical users add and
+                  manage products.
+                </p>
+                <ul class="tags">
+                  <li>JS</li>
+                  <li>LOCALSTORAGE</li>
+                  <li>HTML/CSS</li>
+                </ul>
+                <a class="btn" href="https://urbanhive-chi.vercel.app/">VIEW</a>
+              </div>
+              <figure class="level-shot">
+                <img
+                  src="image/placeholders/project-4.png"
+                  alt="Placeholder for a screenshot of the UrbanHive brand site"
+                  width="800"
+                  height="500"
+                />
+              </figure>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ 04 · XP ============ -->
+      <section id="xp" class="scene" data-lvl="4" data-name="XP">
+        <div class="pin xp-pin">
+          <div class="xp-sky" id="xp-sky" aria-hidden="true"></div>
+          <div class="xp-track" id="xp-track">
+            <div class="xp-ground" aria-hidden="true"></div>
+            <div class="xp-intro">
+              <h2 class="xp-title">EXPERIENCE<br />LOG</h2>
+              <p class="xp-hint">Keep scrolling. The player runs right.</p>
+            </div>
+            <article class="xp-card">
+              <p class="xp-date">2021 — 2023</p>
+              <h3 class="xp-role">APTECH LEARNING</h3>
+              <p class="xp-company">Training, Lagos, Nigeria</p>
+              <p class="xp-desc">
+                Learning full stack development and UI/UX. Specializing in
+                creative, interactive frontends with smooth animations and
+                strong visual identities.
+              </p>
+            </article>
+            <article class="xp-card">
+              <p class="xp-date">2024 — PRESENT</p>
+              <h3 class="xp-role">WEB DESIGNER &amp; DEVELOPER</h3>
+              <p class="xp-company">Freelance projects</p>
+              <p class="xp-desc">
+                Delivered full-scope web projects from design to deployment for
+                companies across Nigeria: agriculture, education, fashion.
+              </p>
+            </article>
+            <article class="xp-card">
+              <p class="xp-date">ONGOING</p>
+              <h3 class="xp-role">ADVANCED WEB DEV / DESIGNER</h3>
+              <p class="xp-company">Interactive and design focused</p>
+              <p class="xp-desc">
+                Continuously studying advanced frontend tech, JavaScript
+                libraries, and advanced animation with GSAP and Lenis.
+              </p>
+            </article>
+            <a class="xp-goal" href="#contact" data-go="contact">
+              <span class="xp-flag" aria-hidden="true"></span>
+              <span class="xp-goal-label">GOAL</span>
+            </a>
+          </div>
+          <div class="player" id="player" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- ============ 05 · CONTACT ============ -->
+      <section id="contact" class="scene" data-lvl="5" data-name="CONTACT">
+        <div class="pin">
+          <div class="layer layer--ink finale" id="finale">
+            <div class="finale-inner">
+              <h2 class="finale-title" id="finale-title">
+                GAME CLEAR.<br />LET'S CONNECT.
+              </h2>
+              <p class="finale-copy">
+                You've collected all the rings and the exit gate is open. Drop
+                me a message. I'm open to freelance work, collabs, and
+                interesting projects.
+              </p>
+              <ul class="contact-links">
+                <!-- TODO: hello@mj.dev looks like a placeholder. Put your real email here. -->
+                <li><a href="mailto:hello@mj.dev">EMAIL</a></li>
+                <li>
+                  <a href="https://github.com/Mojolaoluwa567">GITHUB</a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/adeogunmojola/"
+                    >LINKEDIN</a
+                  >
+                </li>
+                <li><a href="https://x.com/boomaye0">X</a></li>
+              </ul>
+              <a
+                class="btn btn--invert"
+                href="https://www.linkedin.com/in/adeogunmojola/"
+                >START A PROJECT</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Bonus stage (easter egg) ============ -->
+      <section id="bonus" class="scene bonus" data-lvl="6" data-name="BONUS">
+        <div class="bonus-inner">
+          <h2 class="bonus-title">BONUS STAGE</h2>
+          <p class="bonus-copy">
+            You found the secret level. Collect every ring, dodge the spiders,
+            and don't fall off.
+          </p>
+
+          <div class="bonus-grid">
+            <div class="game-card">
+              <div class="game-frame" id="game-frame">
+                <canvas
+                  id="game-canvas"
+                  width="480"
+                  height="240"
+                  aria-label="Bounce, a small platform game"
+                  role="img"
+                ></canvas>
+
+                <div class="game-hud" aria-live="off">
+                  <span>SCORE <b id="g-score">0</b></span>
+                  <span>RINGS <b id="g-rings">0/0</b></span>
+                  <span>LIVES <b id="g-lives">♥♥♥</b></span>
+                </div>
+
+                <div class="game-overlay" id="screen-start">
+                  <h3>BOUNCE</h3>
+                  <p class="keys-hint" id="keys-hint">
+                    ← → move · SPACE jump<br />Collect every ring. Avoid the
+                    spiders.
+                  </p>
+                  <button class="btn btn--invert" id="btn-start" type="button">
+                    PLAY
+                  </button>
+                </div>
+                <div class="game-overlay" id="screen-over" hidden>
+                  <h3>GAME OVER</h3>
+                  <p>Score: <b id="final-score">0</b></p>
+                  <button class="btn btn--invert" id="btn-retry" type="button">
+                    TRY AGAIN
+                  </button>
+                </div>
+                <div class="game-overlay" id="screen-win" hidden>
+                  <h3>LEVEL CLEAR!</h3>
+                  <p>Score: <b id="win-score">0</b></p>
+                  <button class="btn btn--invert" id="btn-again" type="button">
+                    PLAY AGAIN
+                  </button>
+                </div>
+
+                <div class="touch-controls" id="touch-controls">
+                  <div class="touch-dpad">
+                    <button
+                      class="touch-btn"
+                      id="tbtn-left"
+                      type="button"
+                      aria-label="Move left"
+                    >
+                      ◀
+                    </button>
+                    <button
+                      class="touch-btn"
+                      id="tbtn-right"
+                      type="button"
+                      aria-label="Move right"
+                    >
+                      ▶
+                    </button>
+                  </div>
+                  <button
+                    class="touch-btn"
+                    id="tbtn-jump"
+                    type="button"
+                    aria-label="Jump"
+                  >
+                    ▲
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="puzzle-card">
+              <p class="puzzle-label">Mini puzzle: put the tiles in order</p>
+              <div
+                id="puzzle-grid"
+                role="group"
+                aria-label="Sliding puzzle"
+              ></div>
+              <p class="puzzle-moves">MOVES: <b id="move-count">0</b></p>
+              <p class="puzzle-solved" id="puzzle-solved" hidden>
+                SOLVED! YOU'RE HIRED.
+              </p>
+              <button class="btn" id="btn-shuffle" type="button">
+                SHUFFLE
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <footer class="site-footer">
+          AM.DEV © 2026 — ALL RIGHTS RESERVED — PRESS START TO PLAY AGAIN ★
+        </footer>
+      </section>
+    </main>
+
+    <script>
+      /* Safety net: if the animation scripts fail to boot, never leave visitors on the loader. */
+      setTimeout(function () {
+        if (!window.__booted) {
+          var l = document.getElementById("loader");
+          if (l) l.remove();
+          document.documentElement.classList.remove("anim");
+        }
+      }, 9000);
+    </script>
+    <script src="vendor/gsap.min.js"></script>
+    <script src="vendor/ScrollTrigger.min.js"></script>
+    <script src="vendor/lenis.min.js"></script>
     <script src="script.js"></script>
+    <script src="game.js"></script>
   </body>
 </html>
